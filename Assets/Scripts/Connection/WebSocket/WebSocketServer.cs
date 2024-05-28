@@ -15,7 +15,7 @@ public class NodeJSScript : MonoBehaviour
 
     private void Awake()
     {
-        string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/NodeJS");
+        string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/Connection/WebSocket/NodeJS");
         Debug.Log($"FilePathNodeJS data path {FilePathNodeJS}");
 
         var services = new ServiceCollection();
