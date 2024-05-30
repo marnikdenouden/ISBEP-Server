@@ -77,8 +77,8 @@ namespace ISBEP.Situation
             Dictionary<string, float> vector = new Dictionary<string, float>
         {
             { "x", vector3.x },
-            { "y", vector3.x },
-            { "z", vector3.x }
+            { "y", vector3.y },
+            { "z", vector3.z }
         };
             return vector;
         }
