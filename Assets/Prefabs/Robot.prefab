@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3704997549558870816}
-  - component: {fileID: 6331998270836260378}
-  - component: {fileID: 6763769670450178395}
+  - component: {fileID: 4536674453209320839}
+  - component: {fileID: 3301905167873333291}
   - component: {fileID: 5173562921344524924}
   - component: {fileID: 4996621458713468414}
   - component: {fileID: 8493554875108256621}
@@ -36,7 +36,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6331998270836260378
+--- !u!114 &4536674453209320839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,12 +45,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4407676908376526060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21d2a429641e494d84be69b556dad4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 93c21866e5682674580e63dc37429024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TypeLabel: robot
   SerialNumber: 00000000
---- !u!114 &6763769670450178395
+--- !u!114 &3301905167873333291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,10 +59,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4407676908376526060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50bf83f9473a79b4aa46ad8693a76a09, type: 3}
+  m_Script: {fileID: 11500000, guid: 556ae8a444c07474080ed7f5401c8a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!33 &5173562921344524924
 MeshFilter:
   m_ObjectHideFlags: 0

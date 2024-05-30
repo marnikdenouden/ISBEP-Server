@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 591598816549408043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d653b45ac056c642b556c9f765b0da2, type: 3}
+  m_Script: {fileID: 11500000, guid: 1cb743142cddf4c4d84b9dcc9f90b55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TypeLabel: wall
