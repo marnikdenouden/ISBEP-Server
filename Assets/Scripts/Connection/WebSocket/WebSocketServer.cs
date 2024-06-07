@@ -1,51 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
 using UnityEngine.Assertions;
 using System.IO;
-using System.Reflection;
-using System;
-using Unity.VisualScripting;
 
-public class NodeJSScript : MonoBehaviour
+
+namespace ISBEP.Communication
 {
-    private INodeJSService nodeJSService;
-
-    private void Awake()
+    public class WebSocketServer : MonoBehaviour
     {
-        string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/Connection/WebSocket/NodeJS");
-        Debug.Log($"FilePathNodeJS data path {FilePathNodeJS}");
+        private INodeJSService nodeJSService;
 
-        var services = new ServiceCollection();
-        services.AddNodeJS();
-        services.Configure<NodeJSProcessOptions>(options => {
-            options.ProjectPath = FilePathNodeJS;
-        });
+        private void Awake()
+        {
+            string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/Connection/WebSocket/NodeJS");
+            Debug.Log($"FilePathNodeJS data path {FilePathNodeJS}");
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
-        nodeJSService = serviceProvider.GetRequiredService<INodeJSService>();
-    }
-    
-    public class Result
-    {
-        public string? Message { get; set; }
-    }
+            var services = new ServiceCollection();
+            services.AddNodeJS();
+            services.Configure<NodeJSProcessOptions>(options =>
+            {
+                options.ProjectPath = FilePathNodeJS;
+            });
 
-    private void Start()
-    {
-        StartServerWithNodeJS();
-    }
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            nodeJSService = serviceProvider.GetRequiredService<INodeJSService>();
+        }
 
-    private async void StartServerWithNodeJS()
-    {
-        Result result = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "start", args: new[] { "success" });
+        public class Result
+        {
+            public string? Message { get; set; }
+        }
 
-        Assert.AreEqual("success", result?.Message);
-        Debug.Log(result?.Message);
+        private void Start()
+        {
+            StartServerWithNodeJS();
+        }
 
-        Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { "Welcome!"});
-        Debug.Log($"Send : {messageResult?.Message}");
+        private async void StartServerWithNodeJS()
+        {
+            Result result = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "start", args: new[] { "success" });
+
+            Assert.AreEqual("success", result?.Message);
+            Debug.Log(result?.Message);
+
+            Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { "Welcome!" });
+            Debug.Log($"Send : {messageResult?.Message}");
+
+
+            //Result promiseResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "exampleMethod", args: new[] { "1" });
+            //Debug.Log("Returned promise result");
+            //Debug.Log($"Promise result : {promiseResult?.Message}");
+
+        }
+
+        public async void BroadcastWebSocketMessage(string message)
+        {
+            Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { message });
+            Debug.Log($"Send : {messageResult?.Message}");
+        }
     }
 }

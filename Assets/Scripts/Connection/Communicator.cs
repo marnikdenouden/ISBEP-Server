@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ISBEP.Communication
 {   
@@ -13,6 +14,7 @@ namespace ISBEP.Communication
     {
         private static SynchronizationContext mainThreadContext;
         public Situation.Situation situation;
+        public WebSocketServer webSocketServer;
 
         // Start is called before the first frame update
         void Start()
@@ -25,6 +27,7 @@ namespace ISBEP.Communication
         {
             Util.DebugLog("Communicator", "Setting up new accepted client connection");
             TCPServer server = (TCPServer)sender;
+
             static void PrintReceivedListener(byte[] receivedData)
             {
                 string message = Encoding.UTF8.GetString(receivedData,
@@ -33,6 +36,14 @@ namespace ISBEP.Communication
                 Util.Log("", $"\'{message}\'");
             }
             connection.AddReceiveListener(PrintReceivedListener);
+
+            void RelayReceivedDataListener(byte[] receivedData)
+            {
+                string message = Encoding.UTF8.GetString(receivedData,
+                                            0, receivedData.Length);
+                this.webSocketServer.BroadcastWebSocketMessage(message);
+            }
+            connection.AddReceiveListener(RelayReceivedDataListener);
 
             connection.SendMessage(Encoding.UTF8.GetBytes("Welcome to the server"));
 

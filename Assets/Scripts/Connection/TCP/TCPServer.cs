@@ -12,8 +12,12 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the TCP server should be displayed in the logs.")]
         public bool DebugMessages = false;
-        const int PORT_NO = 5000;
-        const string SERVER_IP = "127.0.0.1";
+
+        [Tooltip("Port to bind TCP server to")]
+        public int PortNumber = 5000;
+
+        [Tooltip("Ip to bind TCP server to")]
+        public string ServerIp = "127.0.0.1";
         public static bool ActiveServer { get; private set; } = true;
         private TCPServerSettings ServerSettings;
         private Thread ServerThread;
@@ -38,7 +42,7 @@ namespace ISBEP.Communication
             ActiveServer = false;
             Util.Log("TCP Server", $"Closing server socket {ServerSettings.Socket.LocalEndPoint}");
             // Connect to TCP server to get out of blocking socket accept call.
-            Socket socket = new Socket(IPAddress.Parse(SERVER_IP).AddressFamily,
+            Socket socket = new Socket(IPAddress.Parse(ServerIp).AddressFamily,
                        SocketType.Stream, ProtocolType.Tcp);
             socket.Connect(ServerSettings.IPEndPoint);
             ServerThread.Join();
@@ -50,14 +54,14 @@ namespace ISBEP.Communication
         public void StartTCPServer()
         {
             Util.Log("TCP Server", $"Starting TCP Server on " +
-                $"{SERVER_IP}:{PORT_NO}");
-            IPAddress localAdd = IPAddress.Parse(SERVER_IP);
+                $"{ServerIp}:{PortNumber}");
+            IPAddress localAdd = IPAddress.Parse(ServerIp);
 
             // Wait to get ip address from a host name
             // IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
             // IPAddress ipAddr = ipHost.AddressList[0];
 
-            IPEndPoint localEndPoint = new IPEndPoint(localAdd, PORT_NO);
+            IPEndPoint localEndPoint = new IPEndPoint(localAdd, PortNumber);
 
             Socket socket = new Socket(localAdd.AddressFamily,
                        SocketType.Stream, ProtocolType.Tcp);
