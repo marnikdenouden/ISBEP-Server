@@ -20,7 +20,7 @@ namespace ISBEP.Situation
     [Serializable]
     public struct RobotData
     {
-        public string serialNumber;
+        public string serial;
         public Dictionary<string, float> position;
         public Dictionary<string, float> rotation;
     }
@@ -28,12 +28,12 @@ namespace ISBEP.Situation
     public class RobotElement : SituationElement<RobotData>
     {
         private readonly GameObject gameObject;
-        private readonly string serialNumber;
+        private readonly string serial;
 
-        public RobotElement(GameObject gameObject, string serialNumber) 
+        public RobotElement(GameObject gameObject, string serial) 
         {
             this.gameObject = gameObject;
-            this.serialNumber = serialNumber;
+            this.serial = serial;
         }
 
         private Dictionary<string, float> Position
@@ -101,7 +101,7 @@ namespace ISBEP.Situation
             {
                 return new RobotData()
                 {
-                    serialNumber = serialNumber,
+                    serial = serial,
                     position = Position,
                     rotation = Rotation
                 };
@@ -110,7 +110,7 @@ namespace ISBEP.Situation
             set
             {
                 RobotData data = value;
-                if (data.serialNumber != serialNumber)
+                if (data.serial != serial)
                 {
                     Debug.LogWarning("Serial number of robot data does not match for this robot.");
                     return;
