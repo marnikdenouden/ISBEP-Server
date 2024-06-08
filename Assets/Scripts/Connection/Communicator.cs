@@ -66,8 +66,8 @@ namespace ISBEP.Communication
                     IEnumerable<ISituationData> matchingRobotList = elementList.Where((element) => {
                         Util.DebugLog("Communicator", $"element : {element}");
                         Util.DebugLog("Communicator", $"element.JsonData : {element.JsonData}");
-                        Util.DebugLog("Communicator", $"receivedRobotData.serialNumber : {receivedRobotData.serialNumber}");
-                        return JsonConvert.DeserializeObject<RobotData>(element.JsonData).serialNumber == receivedRobotData.serialNumber;
+                        Util.DebugLog("Communicator", $"receivedRobotData.serialNumber : {receivedRobotData.serial}");
+                        return JsonConvert.DeserializeObject<RobotData>(element.JsonData).serial == receivedRobotData.serial;
                     });
                     foreach (var matchingRobot in matchingRobotList)
                     {
