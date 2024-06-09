@@ -41,10 +41,10 @@ public class SensorHeatmap : MonoBehaviour
     /// <returns>Sampled sensor value for the given position.</returns>
     public float GetSensorValue(Vector3 position)
     {
-        Vector2 location = new ((position.x - transform.position.x) / 
-                                transform.localScale.x * heatmapTexture.width,
-                                (position.z - transform.position.z) / 
-                                transform.localScale.z * heatmapTexture.height);
+        Vector2 location = new ((((position.x - transform.position.x) / 
+                                transform.lossyScale.x) - 0.5f) * heatmapTexture.width,
+                                (((position.z - transform.position.z) / 
+                                transform.lossyScale.z) - 0.5f) * heatmapTexture.height);
         return SampleHeatmap(heatmapTexture, location);
     }
 
