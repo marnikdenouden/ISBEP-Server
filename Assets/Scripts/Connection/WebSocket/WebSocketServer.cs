@@ -3,6 +3,7 @@ using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
 using UnityEngine.Assertions;
 using System.IO;
+using Unity.VisualScripting;
 
 
 namespace ISBEP.Communication
@@ -10,9 +11,12 @@ namespace ISBEP.Communication
     public class WebSocketServer : MonoBehaviour
     {
         private INodeJSService nodeJSService;
+        public static WebSocketServer Instance { get; private set; }
 
         private void Awake()
         {
+            Instance = this;
+
             string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/Connection/WebSocket/NodeJS");
             Debug.Log($"FilePathNodeJS data path {FilePathNodeJS}");
 
@@ -21,8 +25,12 @@ namespace ISBEP.Communication
             services.Configure<NodeJSProcessOptions>(options =>
             {
                 options.ProjectPath = FilePathNodeJS;
+                options.NodeAndV8Options = "--inspect-brk";
             });
-
+            services.Configure<OutOfProcessNodeJSServiceOptions>(options =>
+            {
+                options.InvocationTimeoutMS = -1;
+            });
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             nodeJSService = serviceProvider.GetRequiredService<INodeJSService>();
         }

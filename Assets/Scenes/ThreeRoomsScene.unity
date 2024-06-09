@@ -548,7 +548,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   situation: {fileID: 1045863743}
-  webSocketServer: {fileID: 53199761}
+  OnReceiveData:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 778035962}
+        m_TargetAssemblyTypeName: ISBEP.Communication.Communicator, Assembly-CSharp
+        m_MethodName: PrintReceivedListener
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 778035962}
+        m_TargetAssemblyTypeName: ISBEP.Communication.Communicator, Assembly-CSharp
+        m_MethodName: UpdateRobotData
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &778035963
 Transform:
   m_ObjectHideFlags: 0
@@ -594,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMessages: 1
-  PortNumber: 5646
+  PortNumber: 5666
   ServerIp: 127.0.0.1
 --- !u!4 &788023904
 Transform:
@@ -1563,6 +1589,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3704997549558870816, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
   m_PrefabInstance: {fileID: 1280284627}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1465550714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465550715}
+  - component: {fileID: 1465550717}
+  - component: {fileID: 1465550716}
+  m_Layer: 0
+  m_Name: SensorValues
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1465550715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.9}
+  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1465550716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: temp
+  heatmapTexture: {fileID: 0}
+  scalar: 1
+--- !u!114 &1465550717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9852fd90f6a15be4498dafe00bc24f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1519515364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2199,3 +2285,4 @@ SceneRoots:
   - {fileID: 2031015488}
   - {fileID: 1794646286}
   - {fileID: 1256597496}
+  - {fileID: 1465550715}

@@ -7,26 +7,31 @@ module.exports = {
     
         webSocketServer = new WebSocket.Server({ port: 8080 });
     
+        debugger;
+
         webSocketServer.on('connection', function connection(webSocket) {
             connectedConnection.add(webSocket);
             console.log('Client connected');
-    
+            
+            debugger;
+            
             // Echo
             // webSocket.on('message', function incoming(message) {                
             //     webSocket.send(`${message}`);
             // });
-    
             
             webSocket.on('close', function () {
                 console.log('Client disconnected');
                 connectedConnection.delete(webSocket)
             });
     
-            webSocket.send("Welcome!");
+            webSocket.send("Welcome! :)");
         });
         callback(null, { message: message });
     },
     broadcast: (callback, message) => {
+        debugger;
+        
         connectedConnection.forEach(connectedWebSocket => {
             connectedWebSocket.send(message);
         });

@@ -2,6 +2,7 @@ using ISBEP.Utility;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ISBEP.Communication;
 
 namespace ISBEP.Situation
 {
@@ -23,6 +24,7 @@ namespace ISBEP.Situation
         public string serial;
         public Dictionary<string, float> position;
         public Dictionary<string, float> rotation;
+        public Dictionary<string, float> sensor;
     }
 
     public class RobotElement : SituationElement<RobotData>
@@ -50,6 +52,7 @@ namespace ISBEP.Situation
                 Util.DebugLog("Robot", $"Updated position to {gameObject.transform.position}");
             }
         }
+
         private Dictionary<string, float> Rotation
         {
             get
@@ -69,6 +72,14 @@ namespace ISBEP.Situation
                 Vector3 rotationVector = new Vector3(vector["pitch"], vector["yaw"], vector["roll"]);
                 gameObject.transform.rotation = Quaternion.Euler(rotationVector);
                 Util.DebugLog("Object", $"Updated rotation to {gameObject.transform.rotation.eulerAngles}");
+            }
+        }
+
+        private Dictionary <string, float> Sensor
+        {
+            get
+            {
+                return SensorValues.Instance.GetSensorData(gameObject.transform.position);
             }
         }
 
@@ -103,7 +114,8 @@ namespace ISBEP.Situation
                 {
                     serial = serial,
                     position = Position,
-                    rotation = Rotation
+                    rotation = Rotation,
+                    sensor = Sensor
                 };
             }
 
@@ -118,6 +130,7 @@ namespace ISBEP.Situation
 
                 Util.DebugLog("Robot", "Setting position of robot");
                 Position = data.position;
+
                 Util.DebugLog("Robot", "Setting rotation of robot");
                 Rotation = data.rotation;
             }
