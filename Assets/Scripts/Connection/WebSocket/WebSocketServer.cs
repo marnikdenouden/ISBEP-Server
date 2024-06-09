@@ -45,6 +45,11 @@ namespace ISBEP.Communication
             StartServerWithNodeJS();
         }
 
+        private void OnDisable()
+        {
+            StopServerWithNodeJS();
+        }
+
         private async void StartServerWithNodeJS()
         {
             Result result = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "start", args: new[] { "success" });
@@ -60,6 +65,11 @@ namespace ISBEP.Communication
             //Debug.Log("Returned promise result");
             //Debug.Log($"Promise result : {promiseResult?.Message}");
 
+        }
+
+        private async void StopServerWithNodeJS()
+        {
+            await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "stop", args: new[] { "" });
         }
 
         public async void BroadcastWebSocketMessage(string message)

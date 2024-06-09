@@ -5,8 +5,8 @@ module.exports = {
     start: (callback, message) => {
         const WebSocket = require('ws');
     
-        webSocketServer = new WebSocket.Server({ port: 8080 });
-    
+        webSocketServer = new WebSocket.Server({ port: 5630 });
+        
         debugger;
 
         webSocketServer.on('connection', function connection(webSocket) {
@@ -28,6 +28,12 @@ module.exports = {
             webSocket.send("Welcome! :)");
         });
         callback(null, { message: message });
+    },
+    stop: (callback) => {
+        debugger;
+
+        webSocketServer?.close();
+        callback(null, {});
     },
     broadcast: (callback, message) => {
         debugger;

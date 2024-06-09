@@ -47,7 +47,10 @@ namespace ISBEP.Communication
             socket.Connect(ServerSettings.IPEndPoint);
             ServerThread.Join();
             socket.Close();
-            ServerSettings.Socket.Close();
+            // Allow the socket to linger for at most 8 seconds after closing.
+            ServerSettings.Socket.LingerState = new LingerOption(true, 8);
+            // Set the server socket to close after at most 8 seconds.
+            ServerSettings.Socket.Close(timeout:8);
             Util.DebugLog("TCP Server", $"Finished cleaning up server");
         }
 
