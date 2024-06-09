@@ -18,8 +18,8 @@ public class Heatmap : MonoBehaviour
     public static Texture2D GenerateTexture(int width, int height, float scale) 
     {
         // The origin of the sampled area in the plane.
-        float xOrg = Random.Range(int.MinValue, int.MaxValue);
-        float yOrg = Random.Range(int.MinValue, int.MaxValue); ;
+        float xOrg = Random.value;
+        float yOrg = Random.value;
 
         // Set up the texture and a Color array to hold pixels during processing.
         Texture2D noiseTex = new Texture2D(width, height);

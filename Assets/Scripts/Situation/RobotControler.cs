@@ -2,13 +2,12 @@ using ISBEP.Utility;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using ISBEP.Communication;
 
 namespace ISBEP.Situation
 {
     public class RobotControler : SituationController<RobotData>
     {
-        [Tooltip("")]
+        [Tooltip("Serial number of the robot to idenfity the data.")]
         public string SerialNumber = "00000000";
 
         protected override void Start()

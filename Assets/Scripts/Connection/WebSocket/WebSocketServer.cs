@@ -25,7 +25,7 @@ namespace ISBEP.Communication
             services.Configure<NodeJSProcessOptions>(options =>
             {
                 options.ProjectPath = FilePathNodeJS;
-                options.NodeAndV8Options = "--inspect-brk";
+                //options.NodeAndV8Options = "--inspect-brk"; // Can be used for node js debugger.
             });
             services.Configure<OutOfProcessNodeJSServiceOptions>(options =>
             {

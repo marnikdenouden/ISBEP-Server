@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMessages: 1
-  PortNumber: 5666
+  PortNumber: 5677
   ServerIp: 127.0.0.1
 --- !u!4 &788023904
 Transform:
@@ -1574,6 +1574,14 @@ PrefabInstance:
       propertyPath: SerialNumber
       value: 00000002
       objectReference: {fileID: 0}
+    - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: Streaming
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: SerialNumber
+      value: 00000002
+      objectReference: {fileID: 0}
     - target: {fileID: 8678799043657433640, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: color.b
       value: 1
@@ -1600,6 +1608,11 @@ GameObject:
   - component: {fileID: 1465550715}
   - component: {fileID: 1465550717}
   - component: {fileID: 1465550716}
+  - component: {fileID: 1465550721}
+  - component: {fileID: 1465550720}
+  - component: {fileID: 1465550719}
+  - component: {fileID: 1465550718}
+  - component: {fileID: 1465550722}
   m_Layer: 0
   m_Name: SensorValues
   m_TagString: Untagged
@@ -1636,7 +1649,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensorKey: temp
   heatmapTexture: {fileID: 0}
-  scalar: 1
+  scalar: 40
+  baseValue: 80
 --- !u!114 &1465550717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,6 +1663,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9852fd90f6a15be4498dafe00bc24f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1465550718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: humid
+  heatmapTexture: {fileID: 0}
+  scalar: 8
+  baseValue: 13
+--- !u!114 &1465550719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: pressure
+  heatmapTexture: {fileID: 0}
+  scalar: 1
+  baseValue: 100
+--- !u!114 &1465550720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: ch4
+  heatmapTexture: {fileID: 0}
+  scalar: 1
+  baseValue: 0
+--- !u!114 &1465550721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: co
+  heatmapTexture: {fileID: 0}
+  scalar: 1
+  baseValue: 0
+--- !u!114 &1465550722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465550714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63167138cb317254db9f013c6c2654ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorKey: flow
+  heatmapTexture: {fileID: 0}
+  scalar: 1.8
+  baseValue: 0.8
 --- !u!1001 &1519515364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1710,6 +1804,14 @@ PrefabInstance:
       value: Robot [1]
       objectReference: {fileID: 0}
     - target: {fileID: 4536674453209320839, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: SerialNumber
+      value: 00000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: Streaming
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: SerialNumber
       value: 00000001
       objectReference: {fileID: 0}

@@ -14,6 +14,9 @@ public class SensorHeatmap : MonoBehaviour
     [Tooltip("Scalar to adjust the sampled heatmap value. Can be used to scale the range of sensor values if necessary.")]
     public float scalar = 1.0f;
 
+    [Tooltip("Base to add the sampled heatmap value to. Can be used to transform the range of the sensor value if necessary.")]
+    public float baseValue = 0.0f;
+
     private void Start()
     {
         if (heatmapTexture == null)
@@ -74,6 +77,6 @@ public class SensorHeatmap : MonoBehaviour
         float bottom = Mathf.Lerp(c01, c11, fx);
         float value = Mathf.Lerp(top, bottom, fy);
 
-        return value * scalar;
+        return baseValue + value * scalar;
     }
 }
