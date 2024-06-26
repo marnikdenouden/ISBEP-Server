@@ -3,13 +3,15 @@ using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
 using UnityEngine.Assertions;
 using System.IO;
-using Unity.VisualScripting;
 
 
 namespace ISBEP.Communication
 {
     public class WebSocketServer : MonoBehaviour
     {
+        [Tooltip("Specify if node js debugger should run. See https://nodejs.org/en/learn/getting-started/debugging for debugging information.")]
+        public bool nodeJSDebug = false;
+
         private INodeJSService nodeJSService;
         public static WebSocketServer Instance { get; private set; }
 
@@ -22,22 +24,31 @@ namespace ISBEP.Communication
 
             var services = new ServiceCollection();
             services.AddNodeJS();
-            services.Configure<NodeJSProcessOptions>(options =>
+            if (nodeJSDebug)
             {
-                options.ProjectPath = FilePathNodeJS;
-                //options.NodeAndV8Options = "--inspect-brk"; // Can be used for node js debugger.
-            });
-            services.Configure<OutOfProcessNodeJSServiceOptions>(options =>
+                services.Configure<NodeJSProcessOptions>(options =>
+                {
+                    options.ProjectPath = FilePathNodeJS;
+                    options.NodeAndV8Options = "--inspect-brk";
+                });
+                services.Configure<OutOfProcessNodeJSServiceOptions>(options =>
+                {
+                    options.InvocationTimeoutMS = -1;
+                });
+            } else
             {
-                options.InvocationTimeoutMS = -1;
-            });
+                services.Configure<NodeJSProcessOptions>(options =>
+                {
+                    options.ProjectPath = FilePathNodeJS;
+                });
+            }
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             nodeJSService = serviceProvider.GetRequiredService<INodeJSService>();
         }
 
         public class Result
         {
-            public string? Message { get; set; }
+            public string Message { get; set; }
         }
 
         private void Start()
@@ -55,10 +66,10 @@ namespace ISBEP.Communication
             Result result = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "start", args: new[] { "success" });
 
             Assert.AreEqual("success", result?.Message);
-            Debug.Log(result?.Message);
+            //Debug.Log(result?.Message);
 
             Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { "Welcome!" });
-            Debug.Log($"Send : {messageResult?.Message}");
+            //Debug.Log($"Send : {messageResult?.Message}");
 
 
             //Result promiseResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "exampleMethod", args: new[] { "1" });
