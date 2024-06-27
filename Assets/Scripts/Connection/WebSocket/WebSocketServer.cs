@@ -3,8 +3,6 @@ using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using ISBEP.Utility;
-using System.Net.Security;
-using System.Collections.Generic;
 
 
 namespace ISBEP.Communication
