@@ -13,7 +13,7 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the web socket server should be displayed in the logs.")]
         public bool DebugMessages = false;
-        private readonly string CONTEXT = "Web Socket Server";
+        private static readonly string CONTEXT = "Web Socket Server";
 
         [Tooltip("Specify if node js debugger should run. See https://nodejs.org/en/learn/getting-started/debugging for debugging information.")]
         public bool nodeJSDebug = false;
@@ -76,6 +76,7 @@ namespace ISBEP.Communication
         /// </summary>
         private async void StartWebSocketServerAsync()
         {
+            Util.Log(CONTEXT, $"Starting web socket server at port {port}");
             string log = await nodeJSService.InvokeFromFileAsync<string>("webSocketServer.js", "start", args: new[] { $"{port}" });
             Util.DebugLog(CONTEXT, log);
         }
@@ -85,6 +86,7 @@ namespace ISBEP.Communication
         /// </summary>
         private async void StopWebSocketServerAsync()
         {
+            Util.Log(CONTEXT, $"Stopping web socket server");
             await nodeJSService.InvokeFromFileAsync("webSocketServer.js", "stop", args: new[] { "" });
             Util.DebugLog(CONTEXT, "Stopped the web socket server.");
         }

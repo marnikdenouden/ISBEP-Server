@@ -13,7 +13,7 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the connection should be displayed in the logs.")]
         public bool DebugMessages = false;
-        private readonly string CONTEXT = "Connection";
+        private static readonly string CONTEXT = "Connection";
 
         private readonly Socket socket;
         public bool Reading { get; private set; }

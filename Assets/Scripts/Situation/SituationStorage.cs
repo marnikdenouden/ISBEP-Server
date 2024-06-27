@@ -13,7 +13,7 @@ namespace ISBEP.Situation
     {
         [Tooltip("Specify whether debug message for the situation should be displayed in the logs.")]
         public bool DebugMessages = false;
-        private readonly string CONTEXT = "Situation";
+        private static readonly string CONTEXT = "Situation";
         [Tooltip("File name to export the situation under")]
         public string FileName = "test";
         [Tooltip("Folder path to store the situation in")]

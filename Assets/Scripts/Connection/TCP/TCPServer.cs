@@ -12,7 +12,7 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the TCP server should be displayed in the logs.")]
         public bool DebugMessages = false;
-        private readonly string CONTEXT = "TCP Server";
+        private static readonly string CONTEXT = "TCP Server";
 
         [Tooltip("Port to bind TCP server to")]
         public int PortNumber = 5000;
@@ -75,7 +75,7 @@ namespace ISBEP.Communication
             };
             Connections.Clear();
 
-            Util.Log(CONTEXT, $"Starting TCP Server thread");
+            Util.DebugLog(CONTEXT, $"Starting TCP Server thread");
             ServerThread = new Thread(TCPServerThread);
             ServerThread.Start();
         }

@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4835f7436d82124dab1252d984b3cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMessages: 1
+  DebugMessages: 0
   nodeJSDebug: 0
   port: 5633
 --- !u!4 &53199762
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c837897919625c4e8cbba1a26cf803c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMessages: 1
+  DebugMessages: 0
   PortNumber: 5566
   ServerIp: 127.0.0.1
 --- !u!4 &788023904

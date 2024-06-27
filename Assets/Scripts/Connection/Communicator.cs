@@ -14,7 +14,7 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the communicator should be displayed in the logs.")]
         public bool DebugMessages = false;
-        private readonly string CONTEXT = "Communicator";
+        private static readonly string CONTEXT = "Communicator";
 
         private static SynchronizationContext mainThreadContext;
         public Situation.Situation situation;
@@ -59,8 +59,8 @@ namespace ISBEP.Communication
 
         public static void PrintReceivedListener(string receivedData)
         {
-            Util.Log("Receiver", $"Received message:");
-            Util.Log("", $"\'{receivedData[..Mathf.Min(64, receivedData.Length)]}...\'");
+            Util.DebugLog(CONTEXT, $"Received message:", label:"Receiver");
+            Util.DebugLog(CONTEXT, $"\'{receivedData[..Mathf.Min(64, receivedData.Length)]}...\'", true);
         }
 
         public void RelayReceivedDataListener(string receivedData)
