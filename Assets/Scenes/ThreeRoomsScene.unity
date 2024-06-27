@@ -226,6 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4835f7436d82124dab1252d984b3cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMessages: 1
+  nodeJSDebug: 0
+  port: 5633
 --- !u!4 &53199762
 Transform:
   m_ObjectHideFlags: 0
@@ -547,6 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df2225685a8d2384084f6c4ab4790fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugMessages: 0
   situation: {fileID: 1045863743}
   OnReceiveData:
     m_PersistentCalls:
@@ -620,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMessages: 1
-  PortNumber: 5680
+  PortNumber: 5566
   ServerIp: 127.0.0.1
 --- !u!4 &788023904
 Transform:
@@ -1369,6 +1373,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot [0]
       objectReference: {fileID: 0}
+    - target: {fileID: 5016287304078774174, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: Streaming
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8493554875108256621, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: m_Center.y
       value: 0
@@ -1574,9 +1586,13 @@ PrefabInstance:
       propertyPath: SerialNumber
       value: 00000002
       objectReference: {fileID: 0}
+    - target: {fileID: 5016287304078774174, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: Streaming
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: SerialNumber
@@ -1807,9 +1823,13 @@ PrefabInstance:
       propertyPath: SerialNumber
       value: 00000001
       objectReference: {fileID: 0}
+    - target: {fileID: 5016287304078774174, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: Streaming
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6537790187945026699, guid: 59f39f41acca7aa41aaf055e6836ba43, type: 3}
       propertyPath: SerialNumber
