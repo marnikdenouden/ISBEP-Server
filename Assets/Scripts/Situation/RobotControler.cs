@@ -78,7 +78,7 @@ namespace ISBEP.Situation
         {
             get
             {
-                return SensorValues.Instance.GetSensorData(gameObject.transform.position);
+                return SensorValues.Instance?.GetSensorData(gameObject.transform.position);
             }
         }
 

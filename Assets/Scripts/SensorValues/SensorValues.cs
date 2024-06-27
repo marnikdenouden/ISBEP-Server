@@ -13,10 +13,14 @@ public class SensorValues : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         sensorHeatmaps = GetComponents<SensorHeatmap>();
+    }
+
+    private void OnDisable()
+    {
+        Instance = null;
     }
 
     public Dictionary<string, float> GetSensorData(Vector3 position)
