@@ -1,9 +1,10 @@
 using UnityEngine;
 using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
-using UnityEngine.Assertions;
 using System.IO;
 using ISBEP.Utility;
+using System.Net.Security;
+using System.Collections.Generic;
 
 
 namespace ISBEP.Communication
@@ -16,6 +17,9 @@ namespace ISBEP.Communication
 
         [Tooltip("Specify if node js debugger should run. See https://nodejs.org/en/learn/getting-started/debugging for debugging information.")]
         public bool nodeJSDebug = false;
+
+        [Tooltip("Specify the port to start the web socket server with.")]
+        public int port = 5633;
 
         private INodeJSService nodeJSService;
         public static WebSocketServer Instance { get; private set; }
@@ -57,47 +61,43 @@ namespace ISBEP.Communication
             nodeJSService = serviceProvider.GetRequiredService<INodeJSService>();
         }
 
-        public class Result
-        {
-            public string Message { get; set; }
-        }
-
         private void Start()
         {
-            StartServerWithNodeJS();
+            StartWebSocketServerAsync();
         }
 
         private void OnDisable()
         {
-            StopServerWithNodeJS();
+            StopWebSocketServerAsync();
         }
 
-        private async void StartServerWithNodeJS()
+        /// <summary>
+        /// Start the web socket server.
+        /// </summary>
+        private async void StartWebSocketServerAsync()
         {
-            Result result = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "start", args: new[] { "success" });
-
-            Assert.AreEqual("success", result?.Message);
-            //Debug.Log(result?.Message);
-
-            Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { "Welcome!" });
-            //Debug.Log($"Send : {messageResult?.Message}");
-
-
-            //Result promiseResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "exampleMethod", args: new[] { "1" });
-            //Debug.Log("Returned promise result");
-            //Debug.Log($"Promise result : {promiseResult?.Message}");
-
+            string log = await nodeJSService.InvokeFromFileAsync<string>("webSocketServer.js", "start", args: new[] { $"{port}" });
+            Util.DebugLog(CONTEXT, log);
         }
 
-        private async void StopServerWithNodeJS()
+        /// <summary>
+        /// Stop the web socket server.
+        /// </summary>
+        private async void StopWebSocketServerAsync()
         {
-            await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "stop", args: new[] { "" });
+            await nodeJSService.InvokeFromFileAsync("webSocketServer.js", "stop", args: new[] { "" });
+            Util.DebugLog(CONTEXT, "Stopped the web socket server.");
         }
 
+        /// <summary>
+        /// Broadcasts the specified message to all the connections made to the web socket server.
+        /// </summary>
+        /// <param name="message">Message string to send to all connections of the web socket server.</param>
         public async void BroadcastWebSocketMessage(string message)
         {
-            Result messageResult = await nodeJSService.InvokeFromFileAsync<Result>("webSocketServer.js", "broadcast", args: new[] { message });
-            Debug.Log($"Send : {messageResult?.Message}");
+            string log = await nodeJSService.InvokeFromFileAsync<string>("webSocketServer.js", "broadcast", args: new[] { message });
+            Util.DebugLog(CONTEXT, log);
         }
+
     }
 }
