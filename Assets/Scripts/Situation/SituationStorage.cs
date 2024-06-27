@@ -11,6 +11,9 @@ namespace ISBEP.Situation
 {
     public class SituationStorage : MonoBehaviour
     {
+        [Tooltip("Specify whether debug message for the situation should be displayed in the logs.")]
+        public bool DebugMessages = false;
+        private readonly string CONTEXT = "Situation";
         [Tooltip("File name to export the situation under")]
         public string FileName = "test";
         [Tooltip("Folder path to store the situation in")]
@@ -20,7 +23,7 @@ namespace ISBEP.Situation
 
         public void SaveSituation(Dictionary<string, List<ISituationData>> situationData)
         {
-            Util.DebugLog("Situation", "Saving situation");
+            Util.DebugLog(CONTEXT, "Saving situation");
             DefiningFilepath();
 
             List<string> elementsData= new List<string>();
@@ -38,7 +41,7 @@ namespace ISBEP.Situation
         {
             using StreamWriter file = new StreamWriter(FilePath, false);
             file.Write(export);
-            Util.Log("Situation", "Saved situation data");
+            Util.Log(CONTEXT, "Saved situation data");
         }
 
         /// <summary> Define the file path for the export file. </summary>
@@ -46,7 +49,7 @@ namespace ISBEP.Situation
         {
             string fileExtension = ".json";
             FilePath = Path.Join(FolderPath, string.Concat(FilterIllegalFileChars(FileName), fileExtension));
-            Util.DebugLog("Situation", $"Defined file path as {FilePath}");
+            Util.DebugLog(CONTEXT, $"Defined file path as {FilePath}");
         }
 
         /// <summary>

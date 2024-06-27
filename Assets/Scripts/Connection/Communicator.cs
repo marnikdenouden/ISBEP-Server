@@ -12,14 +12,19 @@ namespace ISBEP.Communication
 {   
     public class Communicator : MonoBehaviour
     {
+        [Tooltip("Specify whether debug message for the communicator should be displayed in the logs.")]
+        public bool DebugMessages = false;
+        private readonly string CONTEXT = "Communicator";
+
         private static SynchronizationContext mainThreadContext;
         public Situation.Situation situation;
 
         public UnityEvent<string> OnReceiveData;
 
-        // Start is called before the first frame update
         void Start()
         {
+            if (DebugMessages) Util.AddDebugContext(CONTEXT);
+
             mainThreadContext = SynchronizationContext.Current;
             TCPServer.AcceptedClientConnectionHandler += Server_AcceptedClientConnection;
         }
@@ -34,7 +39,7 @@ namespace ISBEP.Communication
 
         private void Server_AcceptedClientConnection(object sender, Connection connection)
         {
-            Util.DebugLog("Communicator", "Setting up new accepted client connection");
+            Util.DebugLog(CONTEXT, "Setting up new accepted client connection");
             TCPServer server = (TCPServer)sender;
 
 
@@ -55,7 +60,7 @@ namespace ISBEP.Communication
         public static void PrintReceivedListener(string receivedData)
         {
             Util.Log("Receiver", $"Received message:");
-            Util.Log("", $"\'{receivedData}\'");
+            Util.Log("", $"\'{receivedData[..Mathf.Min(64, receivedData.Length)]}...\'");
         }
 
         public void RelayReceivedDataListener(string receivedData)
@@ -73,21 +78,21 @@ namespace ISBEP.Communication
                 }
                 catch
                 {
-                    Util.DebugLog("Communicator", "Received not valid robot data");
+                    Util.DebugLog(CONTEXT, "Received not valid robot data");
                     return;
                 }
 
                 List<ISituationData> elementList = situation.GetSituationDataElements("robot");
 
                 IEnumerable<ISituationData> matchingRobotList = elementList.Where((element) => {
-                    Util.DebugLog("Communicator", $"element : {element}");
-                    Util.DebugLog("Communicator", $"element.JsonData : {element.JsonData}");
-                    Util.DebugLog("Communicator", $"receivedRobotData.serialNumber : {receivedRobotData.serial}");
+                    Util.DebugLog(CONTEXT, $"element : {element}");
+                    Util.DebugLog(CONTEXT, $"element.JsonData : {element.JsonData}");
+                    Util.DebugLog(CONTEXT, $"receivedRobotData.serialNumber : {receivedRobotData.serial}");
                     return JsonConvert.DeserializeObject<RobotData>(element.JsonData).serial == receivedRobotData.serial;
                 });
                 foreach (var matchingRobot in matchingRobotList)
                 {
-                    Util.DebugLog("Communicator", "Updating robot data with received data");
+                    Util.DebugLog(CONTEXT, "Updating robot data with received data");
                     matchingRobot.JsonData = receivedData;
 
                     // Relay the robot data, after the data has been set to have additional values.

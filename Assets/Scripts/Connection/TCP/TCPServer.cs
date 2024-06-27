@@ -12,6 +12,7 @@ namespace ISBEP.Communication
     {
         [Tooltip("Specify whether debug message for the TCP server should be displayed in the logs.")]
         public bool DebugMessages = false;
+        private readonly string CONTEXT = "TCP Server";
 
         [Tooltip("Port to bind TCP server to")]
         public int PortNumber = 5000;
@@ -26,7 +27,7 @@ namespace ISBEP.Communication
 
         void Start()
         {
-            if (DebugMessages) Util.AddDebugContext("TCP Server");
+            if (DebugMessages) Util.AddDebugContext(CONTEXT);
             StartTCPServer();
         }
 
@@ -37,10 +38,10 @@ namespace ISBEP.Communication
 
         public void EndTCPServer()
         {
-            Util.DebugLog("TCP Server", "Ending TCP Server");
+            Util.DebugLog(CONTEXT, "Ending TCP Server");
             CloseAllConnections();
             ActiveServer = false;
-            Util.Log("TCP Server", $"Closing server socket {ServerSettings.Socket.LocalEndPoint}");
+            Util.Log(CONTEXT, $"Closing server socket {ServerSettings.Socket.LocalEndPoint}");
             // Connect to TCP server to get out of blocking socket accept call.
             Socket socket = new Socket(IPAddress.Parse(ServerIp).AddressFamily,
                        SocketType.Stream, ProtocolType.Tcp);
@@ -51,12 +52,12 @@ namespace ISBEP.Communication
             ServerSettings.Socket.LingerState = new LingerOption(true, 8);
             // Set the server socket to close after at most 8 seconds.
             ServerSettings.Socket.Close(timeout:8);
-            Util.DebugLog("TCP Server", $"Finished cleaning up server");
+            Util.DebugLog(CONTEXT, $"Finished cleaning up server");
         }
 
         public void StartTCPServer()
         {
-            Util.Log("TCP Server", $"Starting TCP Server on " +
+            Util.Log(CONTEXT, $"Starting TCP Server on " +
                 $"{ServerIp}:{PortNumber}");
             IPAddress localAdd = IPAddress.Parse(ServerIp);
 
@@ -74,7 +75,7 @@ namespace ISBEP.Communication
             };
             Connections.Clear();
 
-            Util.Log("TCP Server", $"Starting TCP Server thread");
+            Util.Log(CONTEXT, $"Starting TCP Server thread");
             ServerThread = new Thread(TCPServerThread);
             ServerThread.Start();
         }
@@ -92,7 +93,7 @@ namespace ISBEP.Communication
 
             try
             {
-                Util.DebugLog("TCP Server", $"Binding server socket to " +
+                Util.DebugLog(CONTEXT, $"Binding server socket to " +
                     $"{IPEndPoint.Address}:{IPEndPoint.Port}");
                 socket.Bind(IPEndPoint);
 
@@ -100,7 +101,7 @@ namespace ISBEP.Communication
 
                 while (ActiveServer)
                 {
-                    Util.Log("TCP Server", $"Waiting for client to connect...");
+                    Util.Log(CONTEXT, $"Waiting for client to connect...");
                     Socket clientSocket = socket.Accept();
 
                     CloseFinishedConnections();
@@ -111,7 +112,7 @@ namespace ISBEP.Communication
                         break; 
                     }
 
-                    Util.Log("TCP Server", $"Accepted client socket {clientSocket.LocalEndPoint}");
+                    Util.Log(CONTEXT, $"Accepted client socket {clientSocket.LocalEndPoint}");
 
                     Connection connection = new Connection(clientSocket, false);
 
@@ -126,15 +127,15 @@ namespace ISBEP.Communication
                 if (ActiveServer)
                 {
                     Debug.LogError(exception.ToString());
-                    Util.DebugLog("Stacktrace", $"{exception.StackTrace}", true);
+                    Util.DebugLog(CONTEXT, $"{exception.StackTrace}", true, "Stacktrace");
                 }
                 else
                 {
                     Debug.LogWarning(exception.ToString());
-                    Util.DebugLog("Stacktrace", $"{exception.StackTrace}", true);
+                    Util.DebugLog(CONTEXT, $"{exception.StackTrace}", true, "Stacktrace");
                 }
             }
-            Util.DebugLog("TCP Server", $"Reached end of TCP server thread");
+            Util.DebugLog(CONTEXT, $"Reached end of TCP server thread");
         }
 
         private void CloseFinishedConnections()
@@ -144,7 +145,7 @@ namespace ISBEP.Communication
             {
                 if (!open_connection.Writing && !open_connection.Reading)
                 {
-                    Util.DebugLog("TCP Server", $"Closing connection that stopped writing and reading");
+                    Util.DebugLog(CONTEXT, $"Closing connection that stopped writing and reading");
                     open_connection.Close();
                     closed_connection.Add(open_connection);
                 }
@@ -154,7 +155,7 @@ namespace ISBEP.Communication
 
         private void CloseAllConnections()
         {
-            Util.DebugLog("TCP Server", $"Closing all remaining connections");
+            Util.DebugLog(CONTEXT, $"Closing all remaining connections");
             foreach (Connection connection in Connections)
             {
                 connection.Close();

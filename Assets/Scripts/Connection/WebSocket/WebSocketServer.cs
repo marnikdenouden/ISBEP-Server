@@ -3,12 +3,17 @@ using Jering.Javascript.NodeJS;
 using Microsoft.Extensions.DependencyInjection;
 using UnityEngine.Assertions;
 using System.IO;
+using ISBEP.Utility;
 
 
 namespace ISBEP.Communication
 {
     public class WebSocketServer : MonoBehaviour
     {
+        [Tooltip("Specify whether debug message for the web socket server should be displayed in the logs.")]
+        public bool DebugMessages = false;
+        private readonly string CONTEXT = "Web Socket Server";
+
         [Tooltip("Specify if node js debugger should run. See https://nodejs.org/en/learn/getting-started/debugging for debugging information.")]
         public bool nodeJSDebug = false;
 
@@ -17,11 +22,17 @@ namespace ISBEP.Communication
 
         private void Awake()
         {
+            if (DebugMessages) Util.AddDebugContext(CONTEXT);
+
+            // Set static reference to self, so class has public access point.
             Instance = this;
 
+            // Configure NodeJs access path, so we can call the web socket server javascript file.
             string FilePathNodeJS = Path.Join(Application.dataPath, "/Scripts/Connection/WebSocket/NodeJS");
-            Debug.Log($"FilePathNodeJS data path {FilePathNodeJS}");
 
+            Util.DebugLog(CONTEXT, $"FilePathNodeJS data path {FilePathNodeJS}");
+
+            // Setup the NodeJS invoke services. With or without debug settings.
             var services = new ServiceCollection();
             services.AddNodeJS();
             if (nodeJSDebug)

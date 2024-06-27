@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace ISBEP.Communication
 {
     public class Connection
     {
+        [Tooltip("Specify whether debug message for the connection should be displayed in the logs.")]
+        public bool DebugMessages = false;
+        private readonly string CONTEXT = "Connection";
+
         private readonly Socket socket;
         public bool Reading { get; private set; }
         public bool Writing { get; private set; }
@@ -27,7 +32,7 @@ namespace ISBEP.Communication
         /// <param name="autoStart">Truth assignment, if connections should automatically start.</param>
         public Connection(Socket connectedSocket, bool autoStart = true)
         {
-            Util.Log("Connection", $"Initializing connection for " +
+            Util.Log(CONTEXT, $"Initializing connection for " +
                 $"connected socket {connectedSocket.LocalEndPoint}");
             socket = connectedSocket;
             Reading = true;
@@ -64,9 +69,11 @@ namespace ISBEP.Communication
         /// </summary>
         public void Start()
         {
+            if (DebugMessages) Util.AddDebugContext(CONTEXT);
+
             if (!started)
             {
-                Util.DebugLog("Connection", $"Starting reiver and sender thread");
+                Util.DebugLog(CONTEXT, $"Starting reiver and sender thread");
                 receiver.Start();
                 sender.Start();
                 started = true;
@@ -80,7 +87,7 @@ namespace ISBEP.Communication
         {
             if (Reading)
             {
-                Util.DebugLog("Connection", "Stop reading from the socket");
+                Util.DebugLog(CONTEXT, "Stop reading from the socket");
                 Reading = false;
                 socket.Shutdown(SocketShutdown.Receive);
             }
@@ -93,7 +100,7 @@ namespace ISBEP.Communication
         {
             if (Writing)
             {
-                Util.DebugLog("Connection", "Stop writing to the socket");
+                Util.DebugLog(CONTEXT, "Stop writing to the socket");
                 Writing = false;
                 SendMessage(new byte[0]); // Unblock sender from waiting
                 socket.Shutdown(SocketShutdown.Send);
@@ -107,16 +114,16 @@ namespace ISBEP.Communication
         {
             if (closed)
             {
-                Util.Log("Connection", "Connection has already been closed");
+                Util.Log(CONTEXT, "Connection has already been closed");
                 return;
             }
-            Util.Log("Connection", $"Closing the TCP connection with socket {socket.LocalEndPoint}");
+            Util.Log(CONTEXT, $"Closing the TCP connection with socket {socket.LocalEndPoint}");
 
             StopWriting();
-            Util.DebugLog("Connection", "Waiting for sender thread to join");
+            Util.DebugLog(CONTEXT, "Waiting for sender thread to join");
             sender.Join();
 
-            Util.DebugLog("Connection", $"Waiting for reading to stop " +
+            Util.DebugLog(CONTEXT, $"Waiting for reading to stop " +
                              $"from EOF signal or 4 second timeout");
             socket.ReceiveTimeout = 4000;
             while (Reading)
@@ -124,10 +131,10 @@ namespace ISBEP.Communication
                 Thread.Sleep(100);
             }
 
-            Util.DebugLog("Connection", "Waiting for receiver thread to join");
+            Util.DebugLog(CONTEXT, "Waiting for receiver thread to join");
             receiver.Join();
 
-            Util.DebugLog("Connection", $"Closing connection at {socket.LocalEndPoint} socket to address {socket.RemoteEndPoint}");
+            Util.DebugLog(CONTEXT, $"Closing connection at {socket.LocalEndPoint} socket to address {socket.RemoteEndPoint}", true);
             socket.Close();
             Message.RemoveEndOfFileListener(endListener);
             closed = true;
@@ -139,8 +146,8 @@ namespace ISBEP.Communication
         /// <param name="data">Message to send over the connection</param>
         public void SendMessage(byte[] data)
         {
-            Util.DebugLog("Connection", $"Adding message to the queue:");
-            Util.DebugLog("", $"\'{Encoding.UTF8.GetString(data, 0, data.Length)}\'");
+            Util.DebugLog(CONTEXT, $"Adding message to the queue:");
+            Util.DebugLog(CONTEXT, $"\'{Encoding.UTF8.GetString(data, 0, data.Length)[..Mathf.Min(data.Length, 64)]}...\'");
             messagesToSend.Add(data);
         }
 
@@ -155,7 +162,7 @@ namespace ISBEP.Communication
         /// <param name="listener">Listener to receive data</param>
         public void AddReceiveListener(Action<byte[]> listener)
         {
-            Util.DebugLog("Message", $"Adding End Of File listener");
+            Util.DebugLog(CONTEXT, $"Adding End Of File listener");
             receiveListeners.Add(listener);
         }
 
@@ -164,12 +171,12 @@ namespace ISBEP.Communication
         /// </summary>
         private void Receiver()
         {
-            Util.DebugLog("Receiver", $"Start of receiver thread");
+            Util.DebugLog(CONTEXT, $"Start of receiver thread");
 
             while (Reading)
             {
                 byte[] receivedData = Receive();
-                Util.DebugLog("Receiver", $"Received message from the connection");
+                Util.DebugLog(CONTEXT, $"Received message from the connection");
 
                 if (receivedData == null) break;
 
@@ -178,7 +185,7 @@ namespace ISBEP.Communication
                     listener(receivedData);
                 }
             }
-            Util.DebugLog("Receiver", "Reached end of receiver thread");
+            Util.DebugLog(CONTEXT, "Reached end of receiver thread");
         }
 
         /// <summary>
@@ -186,20 +193,20 @@ namespace ISBEP.Communication
         /// </summary>
         private void Sender()
         {
-                Util.DebugLog("Sender", $"Start of sender thread");
+                Util.DebugLog(CONTEXT, $"Start of sender thread");
 
             while (true)
             {
                 byte[] message = messagesToSend.Take();
-                Util.DebugLog("Sender", $"Got new data to send from queue");
+                Util.DebugLog(CONTEXT, $"Got new data to send from queue");
 
                 if (!Writing) { break; } // End sender thread as we should stop writing
 
-                Util.Log("Sender", "Sending message:");
-                Util.Log("", $"\'{Encoding.UTF8.GetString(message, 0, message.Length)}\'");
+                Util.Log(CONTEXT, "Sending message:");
+                Util.Log("", $"\'{Encoding.UTF8.GetString(message, 0, message.Length)[..Mathf.Min(message.Length, 64)]}...\'");
                 Send(message);
             }
-            Util.DebugLog("Sender", "Reached end of sender thread");
+            Util.DebugLog(CONTEXT, "Reached end of sender thread");
         }
 
         /// <summary>
@@ -210,21 +217,21 @@ namespace ISBEP.Communication
         {
             try
             {
-                Util.DebugLog("Connection", $"Waiting to receive message");
+                Util.DebugLog(CONTEXT, $"Waiting to receive message");
                 return Message.Receive(socket);
             }
             catch (TimeoutException)
             {
-                Util.DebugLog("Connection", $"TimeOutError trying to receive message " +
+                Util.DebugLog(CONTEXT, $"TimeOutError trying to receive message " +
                          $"at socket {socket.LocalEndPoint}");
                 StopReading();
                 return null;
             }
             catch (Exception exception)
             {
-                Util.DebugLog("Connection", $"Exception occurred trying to receive message " +
+                Util.DebugLog(CONTEXT, $"Exception occurred trying to receive message " +
                          $"at socket {socket.LocalEndPoint}");
-                Util.DebugLog("Exception", $"{exception}", true);
+                Util.DebugLog(CONTEXT, $"{exception}", true, "Exception");
                 StopReading();
                 return null;
             }
@@ -238,20 +245,20 @@ namespace ISBEP.Communication
         {
             try
             {
-                Util.DebugLog("Connection", $"Sending message");
+                Util.DebugLog(CONTEXT, $"Sending message");
                 new Message(data).Send(socket);
             }
             catch (TimeoutException)
             {
-                Util.DebugLog("Connection", $"TimeOutError trying to send message " +
+                Util.DebugLog(CONTEXT, $"TimeOutError trying to send message " +
                          $"at socket {socket.LocalEndPoint}");
                 StopWriting();
             }
             catch (Exception exception)
             {
-                Util.DebugLog("Connection", $"Exception occurred trying to send message " +
+                Util.DebugLog(CONTEXT, $"Exception occurred trying to send message " +
                          $"at socket {socket.LocalEndPoint}");
-                Util.DebugLog("Exception", $"{exception}", true);
+                Util.DebugLog(CONTEXT, $"{exception}", true, "Exception");
                 StopWriting();
             }
         }
