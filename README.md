@@ -40,13 +40,16 @@ The web socket server allows data to be send and be accessible for the web app. 
 - Appending
 
 # Server installation
-- Ensure all dependencies are locally met.
+The next steps can be taken to install the server locally.
+
+- Ensure all [dependencies](#dependencies) are locally met.
 - Clone [this]() repository
-- Open the folder as unity project in Unity hub
-- Open the unity project with Unity install 2022.3.19f1 (or later)
+- Open the folder as Unity project in Unity Hub
+- Open the Unity project with Unity install 2022.3.19f1 (or later)
 
 # Server usage
-In order to use the server follow the next steps.
+In order to run an installed server follow the next steps.
+
 - Set the various settings of the components, such as server-ip's.
 - Click run in the Unity editor.
 
