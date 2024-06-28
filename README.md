@@ -8,8 +8,8 @@ ISBEP Situation Server
    - [Situation](#situation)
    - [Robot display](#robot-display)
    - [Sensor values](#sensor-values)
- - [Server start up](#server-usage)
- - [Server setup](#server-setup)
+ - [Server installation](#server-installation)
+ - [Server usage](#server-usage)
  - [Dependencies](#dependencies)
 
 -----------------------------
