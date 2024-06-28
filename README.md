@@ -63,6 +63,8 @@ o	https://github.com/GlitchEnzo/NuGetForUnity
 
 # Dependencies
 [Unity](https://unity.com/download) is required for running and developing this project. The server also uses [Node.js](https://nodejs.org/en/download/) for the [ws module](https://github.com/websockets/ws) to create a web socket server.
+
+## Local requirements
 - Download and install [Unity](https://unity.com/download) (Required locally)
 - Download and install [Node.js](https://nodejs.org/en/download/) (Required locally)
 
