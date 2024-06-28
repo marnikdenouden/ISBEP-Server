@@ -18,7 +18,7 @@ ISBEP Situation Server
 Unity situation server for the Innovation Space Bachelor End Project (ISBEP)
 
 # Components
-In order to integrate the ISBEP-Simulation with the ISBEP-WebApp a server is used, which is able to provide a stable interface. The Unity engine allows the situation to be displayed, which allows developments to be displayed. Thus allowing a normally quite technical component in the demonstrator system to be made visual and accessible.
+In order to integrate the [ISBEP-Simulation](https://github.com/marnikdenouden/ISBEP-Simulation) with the [ISBEP-WebApp](https://github.com/marnikdenouden/ISBEP-WebApp) a server is used, which is able to provide a stable interface. The [Unity](https://unity.com) engine allows the situation to be displayed, which allows developments to be displayed. Thus allowing a normally quite technical component in the demonstrator system to be made visual and accessible.
 
 ## Web socket server
 The web socket server allows data to be send and be accessible for the web app. The [web socket module](https://github.com/websockets/ws) for [Node.js](https://nodejs.org/en/) is used to create the web socket server, while [Unity](https://unity.com) uses C#. In order to access this [Node.js](https://nodejs.org/en/) code we use [Jering.Javascript.NodeJS](https://github.com/JeringTech/Javascript.NodeJS), which is a package that allows us to invoke [Node.js](https://nodejs.org/en/) code.
