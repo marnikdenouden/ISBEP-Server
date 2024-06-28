@@ -65,8 +65,9 @@ o	https://github.com/GlitchEnzo/NuGetForUnity
 [Unity](https://unity.com/download) is required for running and developing this project. The server also uses [Node.js](https://nodejs.org/en/download/) for the [ws module](https://github.com/websockets/ws) to create a web socket server.
 
 ## Local requirements
-- Download and install [Unity](https://unity.com/download) (Required locally)
-- Download and install [Node.js](https://nodejs.org/en/download/) (Required locally)
+Download and install the following software.
+- [Unity](https://unity.com/download)
+- [Node.js](https://nodejs.org/en/download/)
 
 > [!TIP]
 > Use the [Node.js debugger](https://nodejs.org/en/learn/getting-started/debugging) to inspect the web socket server, after enabling nodeJSDebug at [webSocketServer.cs](Assets/Scripts/Connection/WebSocket/WebSocketServer.cs) script component in the Unity GUI.
