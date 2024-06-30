@@ -15,7 +15,7 @@ ISBEP Situation Server
 -----------------------------
 
 # Overview
-Unity situation server for the Innovation Space Bachelor End Project (ISBEP)
+Unity situation server for the Innovation Space Bachelor End Project ([ISBEP](https://studiegids.tue.nl/opleidingen/innovation-space/bachelor/isbep-innovation-space-bachelor-end-project))
 
 # Components
 In order to integrate the [ISBEP-Simulation](https://github.com/marnikdenouden/ISBEP-Simulation) with the [ISBEP-WebApp](https://github.com/marnikdenouden/ISBEP-WebApp) a server is used, which is able to provide a stable interface. The [Unity](https://unity.com) engine allows the situation to be displayed, which allows developments to be displayed. Thus allowing a normally quite technical component in the demonstrator system to be made visual and accessible.
