@@ -21,7 +21,7 @@ Unity situation server for the Innovation Space Bachelor End Project ([ISBEP](ht
 In order to integrate the [ISBEP-Simulation](https://github.com/marnikdenouden/ISBEP-Simulation) with the [ISBEP-WebApp](https://github.com/marnikdenouden/ISBEP-WebApp) a server is used, which is able to provide a stable interface. The [Unity](https://unity.com) engine allows the situation to be displayed, which allows developments to be displayed. Thus allowing a normally quite technical component in the demonstrator system to be made visual and accessible.
 
 ## Web socket server
-The web socket server allows data to be send and be accessible for the web app. The [web socket module](https://github.com/websockets/ws) for [Node.js](https://nodejs.org/en/) is used to create the web socket server, while [Unity](https://unity.com) uses C#. In order to access this [Node.js](https://nodejs.org/en/) code we use [Jering.Javascript.NodeJS](https://github.com/JeringTech/Javascript.NodeJS), which is a package that allows us to invoke [Node.js](https://nodejs.org/en/) code.
+The web socket server allows data to be sent and accessed by the web app. The [web socket module](https://github.com/websockets/ws) for [Node.js](https://nodejs.org/en/) is used to create the web socket server, while [Unity](https://unity.com) uses C#. In order to access this [Node.js](https://nodejs.org/en/) code we use [Jering.Javascript.NodeJS](https://github.com/JeringTech/Javascript.NodeJS), which is a package that allows us to invoke [Node.js](https://nodejs.org/en/) code.
 
 ## TCP server
 The TCP server allows robot data to be received in order to update the [robot display](#robot-display). As a server the system is able to accept multiple client connections, therefore multiple robots could share their data with their own client connection.
@@ -30,13 +30,13 @@ The TCP server allows robot data to be received in order to update the [robot di
 The [Situation.cs](Assets/Scripts/Situation/Situation.cs) script combines the various elements that make up the situation. Allowing the robots to be found, updated and their data send. The situation also allows the data of the objects to be exported to a JSON file, which can be used by [ISBEP-Simulation](https://github.com/marnikdenouden/ISBEP-Simulation) to have a matching setup.
 
 ## Robot display
-Robots has data for a position, rotation and sensor values as defined in the [robot controller](Assets/Scripts/Situation/RobotControler.cs) script. The position and rotation are used to update a virtual object to represent the robot, possibly with a distinct color. Furthermore the robots have a camera attached to the virtual object to define their perspective, which can also be streamed using the [TCP Server](#tcp-server) to the [ISBEP-WebApp](https://github.com/marnikdenouden/ISBEP-WebApp).
+Robots have data for a position, rotation and sensor values as defined in the [robot controller](Assets/Scripts/Situation/RobotControler.cs) script. The position and rotation are used to update a virtual object to represent the robot, possibly with a distinct color. Furthermore the robots have a camera attached to the virtual object to define their perspective, which can also be streamed using the [TCP Server](#tcp-server) to the [ISBEP-WebApp](https://github.com/marnikdenouden/ISBEP-WebApp).
 
 ## Sensor values
 For the [situation](#situation) sensor values are generated with heatmaps, which means that after heatmap creation each position has a fixed value for a sensor value. Robots use the [SensorValues.cs](Assets/Scripts/SensorValues/SensorValues.cs) script to retrieve the set of sensor values for their position.
 
 # Server installation
-The next steps can be taken to install the server locally.
+The following steps can be taken to install the server locally.
 
 - Ensure all [dependencies](#dependencies) are locally met.
 - Clone [this]() repository
